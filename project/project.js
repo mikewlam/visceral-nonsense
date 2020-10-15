@@ -2,6 +2,10 @@
 //Project Visceral Nonsense for Slave to the Algorithm Studio, 
 //lead by Karen Ann Donnachie and Andy Simionato
 
+//Acknowledgements to Daniel Shiffman, Programming from A to Z
+//To Etienne Jacob, for Looping gif Tutorials
+//To ABCDinamo <https://abcdinamo.com/> for their typeface
+
 //sketch set up
 var bgcolor, bgbase;
 var F1, F2, F3;
@@ -44,7 +48,6 @@ var song, osc, amp, vol;
 function preload() {
    F2=loadFont('data/ABCFavoritEduMono-Medium.otf');
    F3=loadFont('data/ABCFavoritEduMono-Book.otf');
-   song = loadSound('data/Ambience.mp3');
 }
 
 
