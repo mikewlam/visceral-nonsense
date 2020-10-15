@@ -17,7 +17,7 @@ let xpos;
 
 //Generative Part
 var particles = [];
-var x0, x1, x2, x3, x4, x5;
+var x0, x1, x2, x3, x4, x5, x6, x7;
 var xhsb;
 
 //input analysis
@@ -37,10 +37,14 @@ var output2 = [];
 var words = [];
 var cIndex = 0;
 
+//Sound input
+var song, osc, amp, vol;
+
 
 function preload() {
    F2=loadFont('data/ABCFavoritEduMono-Medium.otf');
    F3=loadFont('data/ABCFavoritEduMono-Book.otf');
+   song = loadSound('data/Ambience.mp3');
 }
 
 
@@ -89,7 +93,7 @@ function setup() {
         field.position(windowWidth*0.25, windowHeight*0.52);
         field.changed(textData);
         field.hide();
-             
+
 }
 
 
@@ -135,12 +139,14 @@ function textData() {
   //Exterior  
   x0 = map(resultValue, 3, 70, 1.5, 25);
   x1 = map(resultWord, 1, 12, 1, 15);
-  x1a = map(resultWord, 1, 10, -200, windowHeight*0.65);
+  x1a = map(resultWord, 1, 10, -200, windowHeight*0.35);
   //Details
   x2 = map(resultValue, 0, 100, 0.025, 0.15); //
-  x3 = map(notWords, 0, 15, 0, 0.01); //animate
+  x3 = map(notWords, 0, 15, 0, 0.1); //animate
   x4 = map(noise(vowels, notWords), 0, 10, 0.75, 5);
   x5 = map(resultValue, 3, 70, 0.7, 3.5);
+  note1 = map (notWords, 1, 5, 523, 392);
+  note2 = map(vowels, 1, 15, 262, 349);
 
   noiseSeed(random(10)); 
 
@@ -150,6 +156,7 @@ function textData() {
 
 
 function draw() {
+
   let time = frameCount%200;
                 if (mode == 3 && resultValue > 2) {           
                   //Sound Variables
@@ -158,6 +165,9 @@ function draw() {
                 background(bgcolor);
                 let m = 2000;
                 let t = 1*(frameCount-1)/time;
+                
+                
+               
                 
 //===================================================================================================//
 //============================================PROPER-ANSWER==========================================//        
@@ -179,14 +189,11 @@ function draw() {
                        particles.splice(0, 1);
                    }
   }                    fill(bgbase);
-                       textSize(24);
+                       textSize(30);
                        textFont(F2);
                        noStroke();
                        textAlign(CENTER, BOTTOM);
                        answer = text(result, 0, windowHeight*0.45);
-//===================================================================================================//
-//===================================================================================================//        
-//===================================================================================================//                           
 
 //===================================================================================================//
 //============================================FALSE-RESPONSE=========================================//        
@@ -209,7 +216,7 @@ function draw() {
                                  particles.splice(0, 1);
                              }
                 }              fill(bgbase);
-                               textSize(24);
+                               textSize(30);
                                textFont(F2);
                                noStroke();
                                textAlign(CENTER, BOTTOM);
@@ -218,10 +225,12 @@ function draw() {
 //===================================================================================================//
 //===================================================================================================//        
 //===================================================================================================//
- if (zoff < x5) {
- zoff+=x2;
+  if (zoff < x5 ) {
+
+    zoff+=x2;
  } else if (zoff => x5) {
    x2=0;
+
  } 
  //console.log(zoff);
  //console.log(x2);
@@ -244,7 +253,7 @@ function draw() {
     //particles[j].move();
     particles[j].display();
   }
-  
+
 
 }
           
@@ -254,7 +263,7 @@ function draw() {
 function mousePressed() {
   if (mode == 1 && mouseX>0 && mouseX<windowWidth && mouseY<windowHeight*0.52 || mouseY > windowHeight*0.59 && mode == 1) {
   background(bgbase);
-
+  
             //RiTa Syntax for Questions
              output1 = "Q. " + lexicon.randomWord("wrb").toUpperCase()+" DO YOU "+
                        lexicon.randomWord("vb").toUpperCase()+" "+
@@ -292,7 +301,6 @@ function keyPressed () {
     // 27 is ESC
      if (keyCode === 27 && mode == 3) {
        background(bgbase);
-       playing=false;
        colorMode(RGB);
        translate (-windowWidth/2, -windowHeight/2);
            //Remove Generative Sketch
