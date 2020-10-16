@@ -15,7 +15,7 @@ var textEntry, textStatement, rita, answer;
 var statement = 'V SCERAL\nN NSENSE';
 var start = 'CLICK TO START/REFRESH';
 var textDisplay = [];
-var field;
+var field, info;
 let xpos;
 
 
@@ -41,13 +41,10 @@ var output2 = [];
 var words = [];
 var cIndex = 0;
 
-//Sound input
-var song, osc, amp, vol;
-
-
 function preload() {
    F2=loadFont('data/ABCFavoritEduMono-Medium.otf');
    F3=loadFont('data/ABCFavoritEduMono-Book.otf');
+   
 }
 
 
@@ -65,16 +62,20 @@ function setup() {
                                         
       //landing page
       if (mode == 1) {
-        fill(bgcolor);  
+        fill(bgcolor);
+        if (windowWidth > 1200) {
         textSize(120);
         textFont(F2);
         textAlign(CENTER, BOTTOM);
         textLeading(105);
         textStatement=text(statement, windowWidth*0.5, windowHeight*0.45);
-        fill(150);
+        noFill();
+        strokeWeight(2);
+        stroke(bgcolor);
         text(" I      \n O      ", windowWidth*0.5, windowHeight*0.45);
         textSize(windowHeight*0.030);
         fill(bgcolor);
+        noStroke();
         textFont(F3);
         textLeading(windowHeight*0.042);
         text('An exploration into communicating without meaning.\nHow can words provide substance beyond its definitions?\nWhat if a human & alien interaction generates an\nexperience that is purely visceral...', windowWidth*0.5, windowHeight*0.65);
@@ -82,6 +83,27 @@ function setup() {
         fill(bgcolor);
         textFont(F2);
         textStart=text(start, windowWidth/2, windowHeight*0.75);
+        } else if (windowWidth < 1200) {
+              textSize(60);
+              textFont(F2);
+              textAlign(CENTER, BOTTOM);
+              textLeading(55);
+              textStatement=text(statement, windowWidth*0.5, windowHeight*0.45);
+              noFill();
+              stroke(bgcolor);
+              strokeWeight(2);
+              text(" I      \n O      ", windowWidth*0.5, windowHeight*0.45);
+              textSize(windowHeight*0.030);
+              fill(bgcolor);
+              textFont(F3);
+              noStroke();
+              textLeading(windowHeight*0.042);
+              text('An exploration into communicating without meaning.\nHow can words provide substance beyond its definitions?\nWhat if a human & alien interaction generates an\nexperience that is purely visceral...', windowWidth*0.5, windowHeight*0.65);
+              textSize(18);
+              fill(bgcolor);
+              textFont(F2);
+              textStart=text(start, windowWidth/2, windowHeight*0.75);
+        }
         }
         
           //Answer Field
@@ -89,7 +111,11 @@ function setup() {
         field.size(windowWidth*0.5, windowHeight*0.05);
       
         field.style("text-align", CENTER);
-        field.style("font-size", windowHeight*0.025);
+        if (windowWidth > 1200) {
+        field.style("font-size", 35);
+        } else if (windowWidth < 1200) {
+          field.style("font-size", 20)
+        }
         field.style("padding", 20);
         field.style("text-font", F2);
       
@@ -109,11 +135,17 @@ function windowResized() {
     field.position(windowWidth*0.25, windowHeight*0.55);
     field.size(windowWidth*0.5, 50);
     textFont(F2);
-    textSize(45);
-    fill(bgcolor);
-    textAlign(CENTER, BOTTOM);
-    text (rita, windowWidth*0.5, windowHeight*0.35);
+    textAlign(CENTER);
+  if (windowWidth > 1200) {
+  textSize(45);
+  fill(bgcolor);
+  text (rita, windowWidth*0.5, windowHeight*0.4);
+  } else if (windowWidth <1200) {
+      textSize(25);
+      fill(bgcolor);
+      text (rita, windowWidth*0.5, windowHeight*0.4);
   }
+}
 }
 
 //===================================================================================================//
@@ -162,10 +194,9 @@ function draw() {
 
   let time = frameCount%200;
                 if (mode == 3 && resultValue > 2) {           
-                  //Sound Variables
-                  //playing=true;
+
                 translate(windowWidth/2, windowHeight/2);
-                background(bgcolor);
+                background(6, 9, 34, 40);
                 let m = 2000;
                 let t = 1*(frameCount-1)/time;
                 
@@ -264,7 +295,8 @@ function draw() {
 //====================================MOUSE-CLICK-RITA-QUESTION======================================//        
 //===================================================================================================//
 function mousePressed() {
-  if (mode == 1 && mouseX>0 && mouseX<windowWidth && mouseY<windowHeight*0.52 || mouseY > windowHeight*0.59 && mode == 1) {
+
+  if (mode == 1 && mouseX>0 && mouseX<windowWidth && mouseY<windowHeight*0.52 && mouseY>windowHeight*0.05 || mouseY > windowHeight*0.61 && mode == 1) {
   background(bgbase);
   
             //RiTa Syntax for Questions
@@ -284,15 +316,26 @@ function mousePressed() {
   textAlign(CENTER, BOTTOM);
   background(bgbase);
   textFont(F2);
-  textSize(windowHeight*0.05);
+  if (windowWidth > 1200) {
+  textSize(45);
   fill(bgcolor);
   text (rita, windowWidth*0.5, windowHeight*0.4);
+  } else if (windowWidth <1200) {
+      textSize(25);
+      fill(bgcolor);
+      text (rita, windowWidth*0.5, windowHeight*0.4);
+  }
   field.show();
          textSize(18);
          fill(bgcolor);
          textFont(F3);
          textAlign(CENTER, BOTTOM);
          textStart=text('\"ANSWER\" + ENTER', windowWidth/2, windowHeight*0.5);
+         textFont(F3);
+         textSize(18);
+         textAlign(LEFT, BOTTOM);
+         text('ESC:  RETURN\nTAB:  SAVE', windowWidth*0.025, windowHeight*0.080);
+
       }
 }
 //===================================================================================================//
@@ -326,23 +369,33 @@ function keyPressed () {
       fill(bgcolor);
       noStroke();
       textAlign(CENTER, BOTTOM);
-     
+     if (windowWidth > 1200) {
       fill(bgcolor);
       textFont(F2);
-      textSize(windowHeight*0.05);
+      textSize(45);
       text (rita, windowWidth*0.5, windowHeight*0.4);
+     } else if (windowWIdth < 1200) {
+      fill(bgcolor);
+      textFont(F2);
+      textSize(25);
+      text (rita, windowWidth*0.5, windowHeight*0.4);
+     }
       field.show();
          textSize(18);
          fill(bgcolor);
          textFont(F3);
          textAlign(CENTER, BOTTOM);
          textStart=text('\"ANSWER\" + ENTER', windowWidth/2, windowHeight*0.5);
+         textFont(F3);
+         textSize(18);
+         textAlign(LEFT, BOTTOM);
+         text('ESC:  RETURN\nTAB:  SAVE', windowWidth*0.025, windowHeight*0.080);
      } 
 //===================================================================================================//
 //====================================KEY-PRESS-MODE-CHANGE==========================================//        
 //===================================================================================================//     
-       else if (keyCode === 32 && mode == 3) {
-       saveCanvas('TextualNonsense', 'jpg');
+       else if (keyCode === 9 && mode == 3) {
+       saveCanvas('VisceralNonsense', 'jpg');
 //===================================================================================================//
 //====================================KEY-PRESS-MODE-CHANGE==========================================//        
 //===================================================================================================//
@@ -356,6 +409,8 @@ function keyPressed () {
          field.hide();
       }   else if (keyCode === ENTER && mode == 1) {
          mode = 3;
+       } else if (keyCode === 9 && mode == 1) {
+         saveCanvas('QuestionNonsense', 'jpg');
        }
       //add copyWrite object here for ESC
       noStroke();
