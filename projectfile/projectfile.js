@@ -273,7 +273,7 @@ function draw() {
    textFont(F3);
    textSize(18);
    textAlign(LEFT, BOTTOM);
-   text('ESCAPE:  RETURN\nSPACE:   SAVE', -windowWidth/2*0.95, -windowHeight*0.42);
+   text('ESC:  RETURN\nTAB:  SAVE', -windowWidth/2*0.95, -windowHeight*0.42);
 
 //===================================================================================================//
 //==========================================CLASS-CONSTRUCTOR========================================//        
